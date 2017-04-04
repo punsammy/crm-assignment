@@ -5,14 +5,6 @@ class Contact
 
   @@contacts = []
   @@id = 1
-  def initialize(first_name, last_name, email, note)
-    @first_name = first_name
-    @last_name = last_name
-    @email = email
-    @note = note
-    @id = @@id
-    @@id += 1
-  end
 
   def self.create(first_name, last_name, email, note)
     new_contact = Contact.new(first_name, last_name, email, note)
@@ -30,6 +22,37 @@ class Contact
     end
   end
 
+
+  def self.find_by(attribute, value)
+    case attribute
+    when "first_name"
+      result = @@contacts.find { |contact| contact.first_name == value}
+      return result
+    when "last_name"
+      result = @@contacts.find { |contact| contact.last_name == value}
+      return result
+    when "email"
+      result = @@contacts.find { |contact| contact.email == value}
+      return result
+    when "note"
+      result = @@contacts.find { |contact| note_name == value}
+      return result
+    end
+  end
+
+  def self.delete_all
+    @@contacts.clear
+  end
+
+  def initialize(first_name, last_name, email, note)
+    @first_name = first_name
+    @last_name = last_name
+    @email = email
+    @note = note
+    @id = @@id
+    @@id += 1
+  end
+
   def update(id, attribute, value)
     contact = Contact.find(id)
     case attribute
@@ -44,48 +67,19 @@ class Contact
     end
   end
 
-  # This method should work similarly to the find method above
-  # but it should allow you to search for a contact using attributes other than id
-  # by specifying both the name of the attribute and the value
-  # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
-  def self.find_by(attribute, value)
-    case attribute
-    when "first_name"
-      result = @@contacts.select { |contact| contact.first_name == value}
-      return result[0]
-    when "last_name"
-      result = @@contacts.select { |contact| contact.last_name == value}
-      return result[0]
-    when "email"
-      result = @@contacts.select { |contact| contact.email == value}
-      return result[0]
-    when "note"
-      result = @@contacts.select { |contact| note_name == value}
-      return result[0]
-    end
-  end
-
-
-
-  # This method should delete all of the contacts
-  def self.delete_all
-    @@contacts = []
-  end
-
   def full_name
     "#{first_name} #{last_name}"
   end
 
-  # This method should delete the contact
-  # HINT: Check the Array class docs for built-in methods that might be useful here
   def delete
-    contact_to_delete_id = self.id #find ID number
-    @@contacts.delete_if { |contact| contact_to_delete_id == contact.id }  #will iterate throught the array and find the contact with the same ID number and then delete it
+    @@contacts.delete(self)    #self in this context is the instance
+    return true
   end
 
-  # Feel free to add other methods here, if you need them.
+  #another way to delete is
+  # contact_to_delete_id = self.id
+  # @@contacts.delete_if { |contact| contact_to_delete_id == contact.id }
 
 end
-
-amanda = Contact.create("amanda", "punsammy", "amandaemail", "new backpack")
-puts amanda.inspect
+# amanda = Contact.create("amanda", "punsammy", "amandaemail", "laptop")
+# person = Contact.create("person", "somename", "email", "birthday")
