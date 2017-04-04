@@ -48,15 +48,20 @@ class Contact
   # but it should allow you to search for a contact using attributes other than id
   # by specifying both the name of the attribute and the value
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
-  def self.find_by
-    @@contacts.each do |contact|
-      if value = contact.first_name
-        return
-      elsif value = contact.last_name
-        return
-      elsif value = contact.email
-        return
-      end
+  def self.find_by(attribute, value)
+    case attribute
+    when "first_name"
+      result = @@contacts.select { |contact| contact.first_name == value}
+      return result[0]
+    when "last_name"
+      result = @@contacts.select { |contact| contact.last_name == value}
+      return result[0]
+    when "email"
+      result = @@contacts.select { |contact| contact.email == value}
+      return result[0]
+    when "note"
+      result = @@contacts.select { |contact| note_name == value}
+      return result[0]
     end
   end
 
@@ -64,7 +69,7 @@ class Contact
 
   # This method should delete all of the contacts
   def self.delete_all
-    @@contacts.clear
+    @@contacts = []
   end
 
   def full_name
@@ -74,9 +79,13 @@ class Contact
   # This method should delete the contact
   # HINT: Check the Array class docs for built-in methods that might be useful here
   def delete
-
+    contact_to_delete_id = self.id #find ID number
+    @@contacts.delete_if { |contact| contact_to_delete_id == contact.id }  #will iterate throught the array and find the contact with the same ID number and then delete it
   end
 
   # Feel free to add other methods here, if you need them.
 
 end
+
+amanda = Contact.create("amanda", "punsammy", "amandaemail", "new backpack")
+puts amanda.inspect
