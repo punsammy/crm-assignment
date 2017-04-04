@@ -5,7 +5,6 @@ class Contact
 
   @@contacts = []
   @@id = 1
-  # This method should initialize the contact's attributes
   def initialize(first_name, last_name, email, note)
     @first_name = first_name
     @last_name = last_name
@@ -15,31 +14,34 @@ class Contact
     @@id += 1
   end
 
-  # This method should call the initializer,
-  # store the newly created contact, and then return it
   def self.create(first_name, last_name, email, note)
     new_contact = Contact.new(first_name, last_name, email, note)
     @@contacts << new_contact
     return new_contact
   end
 
-  def self.all       # This method should return all of the existing contacts
+  def self.all
     @@contacts
   end
 
-  def self.find(id)                 # This method should accept an id as an argument
+  def self.find(id)
     @@contacts.find do |contact|
-      contact.id == id              # and return the contact who has that id
+      contact.id == id
     end
   end
 
-  # This method should allow you to specify
-  # 1. which of the contact's attributes you want to update
-  # 2. the new value for that attribute
-  # and then make the appropriate change to the contact
-  def update
-    
-
+  def update(id, attribute, value)
+    contact = Contact.find(id)
+    case attribute
+      when "first_name"
+        contact.first_name = value
+      when "last_name"
+        contact.last_name = value
+      when "email"
+        contact.email = value
+      when "note"
+        contact.note = value
+    end
   end
 
   # This method should work similarly to the find method above
@@ -47,12 +49,22 @@ class Contact
   # by specifying both the name of the attribute and the value
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
   def self.find_by
-
+    @@contacts.each do |contact|
+      if value = contact.first_name
+        return
+      elsif value = contact.last_name
+        return
+      elsif value = contact.email
+        return
+      end
+    end
   end
+
+
 
   # This method should delete all of the contacts
   def self.delete_all
-
+    @@contacts.clear
   end
 
   def full_name
