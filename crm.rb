@@ -80,9 +80,9 @@ class CRM
   end
 
 end
-
-Contact.create("amanda", "punsammy", "amandaemail", "laptop")
-Contact.create("person", "somename", "email", "birthday")
-
-crm = CRM.new
-crm.main_menu
+# 
+# Contact.create("amanda", "punsammy", "amandaemail", "laptop")
+# Contact.create("person", "somename", "email", "birthday")
+#
+# crm = CRM.new
+# crm.main_menu

@@ -53,8 +53,8 @@ class Contact
     @@id += 1
   end
 
-  def update(id, attribute, value)
-    contact = Contact.find(id)
+  def update(attribute, value)
+    contact = self
     case attribute
       when "first_name"
         contact.first_name = value
